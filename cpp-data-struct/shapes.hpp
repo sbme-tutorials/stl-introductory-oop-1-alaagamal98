@@ -5,14 +5,28 @@
 
 namespace geometry
 {
-
-double euclideanDistance( double x1, double y1, double x2, double y2 )
+struct Point
 {
-    double dx = x1 - x2;
-    double dy = y1 - y2;
-    return std::sqrt( dx * dx + dy * dy );
-}
+    double x;
+    double y;
+};
+struct Circle
+{
+    Point center;
+    double radius;
+};
 
+struct Square
+{
+    Point upLeftCorner;
+    double length;
+};
+
+struct Rectangle
+{
+    Point upLeftCorner;
+    Point downRightCorner;
+};
 double squareArea(double side)
 {
     return side * side;
@@ -57,54 +71,28 @@ bool rectangleContains(double upleftX, double upleftY, double downRightX, double
            testY >= upleftY &&
            testY <= downRightY;
 }
-
-struct Point
-{
-    double x;
-    double y;
-};
-
-struct Circle
-{
-    Point center;
-    double radius;
-};
-
-struct Square
-{
-    Point upLeftCorner;
-    double length;
-};
-
-struct Rectangle
-{
-    Point upLeftCorner;
-    Point downRightCorner;
-};
-
-double euclideanDistance( Point p1, Point p2 )
-{
-    return euclideanDistance( p1.x, p1.y, p2.x, p2.y );
-}
-
 bool circleContains(Circle c, Point test)
 {
-    // Implement yourself.
-    // DRY solution?!
+    double dx = c.center.x - test.x;
+    double dy = c.center.y - test.y;
+    return dx*dx + dy*dy <= c.radius * c.radius;
 }
 
 bool squareContains(Square s, Point test)
 {
-    // Implement yourself.
-    // DRY solution?!
+    return test.x >= s.upLeftCorner.x &&
+    test.x <= s.upLeftCorner.x + s.length &&
+    test.y >= s.upLeftCorner.y &&
+    test.y <= s.upLeftCorner.y + s.length;
 }
 
 bool rectangleContains(Rectangle r, Point test)
 {
-    // Implement yourself.
-    // DRY solution?!
+    return test.x >= r.upLeftCorner.x &&
+    test.x <= r.downRightCorner.y  &&
+    test.y >= r.upLeftCorner.y &&
+    test.y <= r.downRightCorner.y;
 }
-
 } // namespace geometry
 
 #endif
